@@ -98,13 +98,31 @@ void Log::gameStartTime()			//calculates games start time and stores it in to lo
 	}
 }
 
-string* Log::getDataString()	//returns getString
+void Log::increaseStoringLimit()
 {
-	return getString;
+	max = max * 2;
+	if(max >= 3)
+	{
+		delete[] tempString;
+	}
+	tempString = new string[max];
+	for (int i = 0; i < count; i++)
+	{
+		tempString[i] = getString[i];
+	}
+	if(count == 1)
+	{
+		delete[] getString;
+	}
+	getString = tempString;
 }
 
-void Log::getPlayerCompData()		//gets computer and player's win or losses
+std::string* Log::getPlayerCompData()		//gets computer and player's win or losses
 {
+	if(count >= max)
+	{
+		increaseStoringLimit();
+	}
 	if (p.winCount == 1)
 	{
 		getString[count] = "Won";
@@ -126,17 +144,20 @@ void Log::getPlayerCompData()		//gets computer and player's win or losses
 		getString[count] = "Draw";
 	}
 	count++;
+	return getString;
 }
 
 void Log::storeDatainFile()				//stores data in every new log file
 {
+	pointerToString = getPlayerCompData();
+	
 	for (int i = 0; i < count; i++)
 	{
-		if (getString[i] == "Won")
+		if (pointerToString[i] == "Won")
 		{
 			winCount++;
 		}
-		else if (getString[i] == "Lost")
+		else if (pointerToString[i] == "Lost")
 		{
 			lostCount++;
 		}
@@ -161,7 +182,7 @@ void Log::storeDatainFile()				//stores data in every new log file
 		storeData << "--" << endl;
 		for (int i = 0; i < count; i++)
 		{
-			storeData << "Round " << i+1 << ": " << getString[i] << endl;
+			storeData << "Round " << i+1 << ": " << pointerToString[i] << endl;
 		}
 	}
 }
@@ -173,5 +194,5 @@ void Log::closeLogFile()		//closes log file
 
 void Log::deleteString()		//deletes string which is dynamically allocated in memory
 {
-	delete[] getString;
+	delete[] tempString;
 }
