@@ -17,7 +17,10 @@ public:
 	int lostCount = 0;			//identifies number of times player lost
 	int drawCount = 0;			//identifies number of draws
 	int fileCount = 0;			//a counter which is associated with storing counters and associating them with file names of logs
-
+	int max = 1;
+	std::string* pointerToString; //points to getString
+	std::string* tempString;	//new string to increase storing limit
+	
 	time_t currentTime = time(NULL);			//stores current time
 	struct tm *cTime = localtime(&currentTime);	//stores current local time
 	int hour = cTime->tm_hour;					//displays current hour
@@ -31,16 +34,16 @@ public:
 	std::ifstream readData;						//ifstream associated with "counter.txt" which reads counts
 
 	void generateLogFile();						//generates log file
-	std::string* getDataString();				//returns getString
-	void getPlayerCompData();					//gets computer and player's win or losses
+	std::string* getPlayerCompData();					//gets computer and player's win or losses
 	void storeDatainFile();						//stores data in every new log file
 	void closeLogFile();						//closes log file after each program termination
 	void deleteString();						//deletes string which is dynamically allocated in memory
 	void gameStartTime();						//calculates games start time and stores it in to log file
 	void changeMonthValue();					//associated with "stringMonth" and "stringMonthValue"
-
+	void increaseStoringLimit();				//associated with getString
+	
 private:
-	std::string* getString = new std::string[100];	//string array to store strings of wins and losses or draws
+	std::string* getString = new std::string[max];	//string array to store strings of wins and losses or draws
 	std::ofstream storeData;						//associated with each log file
 	Computer& c;									//computer object
 	Player& p;										//player object
