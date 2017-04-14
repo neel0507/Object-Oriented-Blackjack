@@ -101,10 +101,7 @@ void Log::gameStartTime()			//calculates games start time and stores it in to lo
 void Log::increaseStoringLimit()
 {
 	max = max * 2;
-	if(max >= 3)
-	{
-		delete[] tempString;
-	}
+	
 	tempString = new string[max];
 	for (int i = 0; i < count; i++)
 	{
@@ -151,7 +148,7 @@ void Log::storeDatainFile()				//stores data in every new log file
 {
 	pointerToString = getPlayerCompData();
 	
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < count-1; i++)
 	{
 		if (pointerToString[i] == "Won")
 		{
@@ -175,12 +172,12 @@ void Log::storeDatainFile()				//stores data in every new log file
 		min = newCTime->tm_min;
 
 		storeData << "Game finished at: " << hour << ":" << min << " " << day << "-" << stringMonth << "-" << year << endl;
-		storeData << "Rounds: " << count << endl;
+		storeData << "Rounds: " << count-1 << endl;
 		storeData << "Won: " << winCount << endl;
 		storeData << "Lost: " << lostCount << endl;
 		storeData << "Drawn: " << drawCount << endl;
 		storeData << "--" << endl;
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < count-1; i++)
 		{
 			storeData << "Round " << i+1 << ": " << pointerToString[i] << endl;
 		}
