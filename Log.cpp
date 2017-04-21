@@ -107,10 +107,8 @@ void Log::increaseStoringLimit()
 	{
 		tempString[i] = getString[i];
 	}
-	if(count == 1)
-	{
-		delete[] getString;
-	}
+	
+	delete[] getString;
 	getString = tempString;
 }
 
